@@ -11,24 +11,28 @@ import Html.Events exposing (onClick)
 
 view : WebData (List Technology) -> Html Msg
 view response =
-    div []
-        [ nav
-        , maybeList response
+    div [ class "mdl-layout mdl-js-layout mdl-layout--fixed-header"]
+        [ 
+            nav
+            , content response
+
         ]
 
+content : WebData (List Technology) -> Html Msg
+content response =
+    div [class "mdl-layout__content"] [
+        maybeList response
+    ]
 
 nav : Html Msg
 nav =
-    div [ class "mdl-layout mdl-js-layout mdl-layout--fixed-header" ]
-        [ 
-            header [ class "mdl-layout__header"] 
-            [  
-                div [ class "mdl-layout__header-row" ] 
-                [
-                     span [ class "mdl-layout-title"] [ text "Technologies"] 
-                ] 
-            ]
-         ]
+    header [ class "mdl-layout__header"] 
+    [  
+        div [ class "mdl-layout__header-row" ] 
+        [
+                span [ class "mdl-layout-title"] [ text "Technologies"] 
+        ] 
+    ]
 
 
 maybeList : WebData (List Technology) -> Html Msg
@@ -72,15 +76,18 @@ techRow tech =
         [ td [] [ text (toString tech.id) ]
         , td [ class "mdl-data-table__cell--non-numeric" ] [ text tech.name ]
         , td [] [ 
-            btnLevelDecrease tech
-            , text (toString tech.votes) 
-            , btnLevelIncrease tech
+            div []
+            [
+                btnLevelDecrease tech
+                , span [] [text (toString tech.votes) ]
+                , btnLevelIncrease tech
             ]
+          ]
         ]
 
 formVote : Technology -> Html Msg
 formVote technology =
-    div [ class "" ]
+    div []
         [ 
             btnLevelDecrease technology
             , btnLevelIncrease technology
