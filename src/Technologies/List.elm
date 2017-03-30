@@ -1,5 +1,6 @@
 module Technologies.List exposing (..)
 
+import CommonView
 import Html exposing (..)
 import Html.Attributes exposing (class, href)
 import Msgs exposing (Msg)
@@ -13,7 +14,7 @@ view : WebData (List Technology) -> Html Msg
 view response =
     div [ class "mdl-layout mdl-js-layout mdl-layout--fixed-header"]
         [ 
-            nav
+            CommonView.nav "Technologies"
             , content response
 
         ]
@@ -23,17 +24,6 @@ content response =
     div [class "mdl-layout__content"] [
         maybeList response
     ]
-
-nav : Html Msg
-nav =
-    header [ class "mdl-layout__header"] 
-    [  
-        div [ class "mdl-layout__header-row" ] 
-        [
-                span [ class "mdl-layout-title"] [ text "Technologies"] 
-        ] 
-    ]
-
 
 maybeList : WebData (List Technology) -> Html Msg
 maybeList response =
