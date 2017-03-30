@@ -4,12 +4,16 @@ import Html exposing (..)
 import Html.Attributes exposing (class, href)
 import Msgs exposing (Msg)
 
-nav : String -> Html Msg
-nav title =
+nav : Html Msg -> Html Msg
+nav content =
     header [ class "mdl-layout__header"] 
     [  
         div [ class "mdl-layout__header-row" ] 
         [
-                span [ class "mdl-layout-title"] [ text title] 
+            content
         ] 
     ]
+
+title: Html Msg -> Html Msg
+title content= 
+    span [ class "mdl-layout-title"] [ content ] 

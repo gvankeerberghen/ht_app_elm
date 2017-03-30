@@ -14,7 +14,7 @@ view : WebData (List Technology) -> Html Msg
 view response =
     div [ class "mdl-layout mdl-js-layout mdl-layout--fixed-header"]
         [ 
-            CommonView.nav "Technologies"
+            CommonView.nav ( CommonView.title <| text "Technologies" )
             , content response
 
         ]
@@ -63,8 +63,8 @@ list technologies =
 techRow : Technology -> Html Msg
 techRow tech =
     tr []
-        [ td [] [ text (toString tech.id) ]
-        , td [ class "mdl-data-table__cell--non-numeric" ] [ text tech.name ]
+        [ td [] [text (toString tech.id) ]
+        , td [ class "mdl-data-table__cell--non-numeric" ] [  editBtn tech (text tech.name) ]
         , td [] [ 
             div []
             [
@@ -108,14 +108,14 @@ btnLevelIncrease technology =
 
 
 
-editBtn : Technology -> Html.Html Msg
-editBtn tech =
+editBtn : Technology -> Html Msg -> Html Msg
+editBtn tech content=
     let
         path =
             technologyPath tech.id
     in
         a
-            [ class "btn regular"
+            [ class "mdl-button mdl-js-button"
             , href path
             ]
-            [ i [ class "fa fa-pencil mr1" ] []]
+            [ content ]

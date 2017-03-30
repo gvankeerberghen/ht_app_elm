@@ -1,5 +1,6 @@
 module Technologies.Edit exposing (..)
 
+import CommonView
 import Html exposing (..)
 import Html.Attributes exposing (class, value, href)
 import Msgs exposing (Msg)
@@ -10,9 +11,9 @@ import Html.Events exposing (onClick)
 
 view : Technology -> Html Msg
 view model =
-    div []
-        [ nav model
-        , form model
+    div [ class "mdl-layout mdl-js-layout mdl-layout--fixed-header"]
+        [ CommonView.nav <| CommonView.title (div [][ listBtn])
+        , content model
         ]
 
 
@@ -21,12 +22,28 @@ nav model =
     div [ class "clearfix mb2 white bg-black p1" ]
         [ listBtn ]
 
+content : Technology -> Html Msg
+content model =
+    div [class "mdl-layout__content"] [
+        div [class "mdl-grid"] [
+            div [class "mdl-cell mdl-cell--3-col"] [
+                form model
+            ]
+        ]
+    ]
+
 
 form : Technology -> Html Msg
 form technology =
-    div [ class "m3" ]
-        [ h1 [] [ text technology.name ]
-        , formVote technology
+    div [ class "mdl-card mdl-shadow--2dp" ]
+        [   
+            div [ class "mdl-card__title" ] 
+            [
+                span [class "mdl-card__title-text"] [text technology.name]
+            ]
+            , div [class "mdl-card__supporting-text"] [
+                formVote technology
+            ]
         ]
 
 
