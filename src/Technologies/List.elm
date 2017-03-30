@@ -6,6 +6,7 @@ import Msgs exposing (Msg)
 import Models exposing (Technology)
 import RemoteData exposing (WebData)
 import Routing exposing (technologyPath)
+import Html.Events exposing (onClick)
 
 
 view : WebData (List Technology) -> Html Msg
@@ -57,7 +58,6 @@ list technologies =
                             [ th [] [ text "Id" ]
                             , th [ class "mdl-data-table__cell--non-numeric" ] [ text "Name" ]
                             , th [] [ text "Votes" ]
-                            , th [] [ text "Edit" ]
                             ]
                         ]
                     , tbody [] (List.map techRow technologies)
@@ -71,10 +71,45 @@ techRow tech =
     tr []
         [ td [] [ text (toString tech.id) ]
         , td [ class "mdl-data-table__cell--non-numeric" ] [ text tech.name ]
-        , td [] [ text (toString tech.votes) ]
-        , td []
-            [editBtn tech]
+        , td [] [ 
+            btnLevelDecrease tech
+            , text (toString tech.votes) 
+            , btnLevelIncrease tech
+            ]
         ]
+
+formVote : Technology -> Html Msg
+formVote technology =
+    div [ class "" ]
+        [ 
+            btnLevelDecrease technology
+            , btnLevelIncrease technology
+        ]
+
+btnLevelClass: String
+btnLevelClass =
+    "mdl-button mdl-js-button mdl-button--accent mdl-button--icon"
+
+btnLevelDecrease : Technology -> Html Msg
+btnLevelDecrease technology =
+    let 
+        message = 
+            Msgs.ChangeVotes technology -1
+    in
+        button [ class btnLevelClass , onClick message]
+            [ i [ class "material-icons" ] [ text "remove" ] ]
+
+
+btnLevelIncrease : Technology -> Html Msg
+btnLevelIncrease technology =
+    let 
+        message = 
+            Msgs.ChangeVotes technology 1
+    in
+        button [ class btnLevelClass , onClick message ]
+            [ i [ class "material-icons" ] [ text "add"] ]
+
+
 
 editBtn : Technology -> Html.Html Msg
 editBtn tech =
